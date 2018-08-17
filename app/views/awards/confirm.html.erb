@@ -1,0 +1,16 @@
+<%= form_for @award do |f| %>
+  <div class="field">
+    day: <%= @award.day %>
+    <%= f.hidden_field :day %>
+  </div>
+  <div class="field">
+    contents: <%= @award.contents %>
+    <%= f.hidden_field :contents %>
+  </div>
+  <div class="actions">
+    <%= f.submit '投稿画面に戻る', name: 'back' %>
+  </div>
+  <div class="actions">
+    <%= f.submit '賞を送る' %>
+  </div>
+<% end %>
