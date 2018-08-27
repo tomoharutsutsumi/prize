@@ -5,6 +5,7 @@ class AwardsController < ApplicationController
   # GET /awards.json
   def index
     #説明画面
+    @user = current_user
   end
 
   # GET /awards/1
