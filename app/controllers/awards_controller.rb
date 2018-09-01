@@ -1,6 +1,5 @@
 class AwardsController < ApplicationController
   before_action :set_award, only: [:show, :edit, :update, :destroy]
-
   # GET /awards
   # GET /awards.json
   def index
