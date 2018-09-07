@@ -6,18 +6,23 @@ class User < ApplicationRecord
          #, :omniauthable, omniauth_providers: [:twitter]
 
 
-  has_many :active_relationships, class_name: "User",
+  has_many :giving_awards, class_name: "Award",
   foreign_key: "giver_id",
   dependent: :destroy
-  has_many :passive_relationships, class_name: "User",
+  has_many :given_awards, class_name: "Award",
   foreign_key: "given_id",
   dependent: :destroy
-  has_many :giving, through: :active_relationships, source: :given
-  has_many :givers, through: :passive_relationships, source: :giver
+
 
   def give(given_user)
-    active_relationships.create(given_id: given_user.id)
+    giving_awards.create(given_id: given_user.id)
   end
+
+  #自分が賞を送った人一覧
+
+
+  #自分に賞を送ってくれた人一覧
+
 
 
 end
