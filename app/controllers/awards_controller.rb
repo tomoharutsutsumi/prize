@@ -73,9 +73,6 @@ class AwardsController < ApplicationController
       @award = Award.find(params[:id])
     end
 
-    def set_user
-      user 
-
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def award_params
