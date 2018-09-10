@@ -1,10 +1,12 @@
+<%= image_tag "annotated_award_img.png" %>
+
 <%= form_for @award do |f| %>
   <div class="field">
-    day: <%= @award.day %>
+    day: <%#= @award.day %>
     <%= f.hidden_field :day %>
   </div>
   <div class="field">
-    contents: <%= @award.contents %>
+    contents: <%#= @award.contents %>
     <%= f.hidden_field :contents %>
   </div>
   <div class="actions">
