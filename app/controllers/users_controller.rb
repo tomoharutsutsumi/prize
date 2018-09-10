@@ -1,5 +1,8 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user, only: [:give_award]
+  before_action :authenticate_user!, only: [:show]
+  def show
+    @my_awards = current_user.awards
+  end
   #before_action :set_user, only: [:show_givers, :show_givings]
   def show_givers
     user = User.find(4)
@@ -17,3 +20,4 @@ class UsersController < ApplicationController
  # view側では上の書き方で呼び出せる
 
 end
+
