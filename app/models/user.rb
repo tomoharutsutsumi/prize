@@ -18,10 +18,7 @@ class User < ApplicationRecord
     giving_awards.create(given_id: given_user.id)
   end
 
-  #自分が賞を送った人一覧
 
-
-  #自分に賞を送ってくれた人一覧
 
 
 
