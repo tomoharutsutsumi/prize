@@ -4,8 +4,12 @@ Rails.application.routes.draw do
   post 'awards/confirm', to: 'awards#confirm'
   resources :awards
   resources :users do
-    member do
-      post :give_award
+    collection do
+      get :liking
     end
+  end
+  namespace :my do
+    get '/givers', :to => "gives#all_givers"
+    get '/givings', :to => "gives#all_givings"
   end
 end
