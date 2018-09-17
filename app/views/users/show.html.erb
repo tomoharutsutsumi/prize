@@ -1,5 +1,3 @@
-自分の送った賞
-<% @my_awards.each do |my_award| %>
- <%= my_award.contents %>
-<% end %>
+<%= @user.username %>
+<%= @user.email %>
 <%=link_to 'topに戻る', root_path %>
