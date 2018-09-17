@@ -18,6 +18,10 @@ class Award < ApplicationRecord
     resized_award_img.write("#{Rails.root}/app/assets/images/annotated_award_img.png")
   end
 
+  def give(giver_user, given_user)
+    create(giver_id: giver_user.id, given_id: given_user.id)
+  end
+
 
 
 end

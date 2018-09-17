@@ -17,6 +17,8 @@ class AwardsController < ApplicationController
   end
 
   def confirm
+    #giver_id = current_user.id
+    #given_id = User.find(params[:id])
     @award = Award.new(award_params)
     @award.make_award_img
     render :new if @award.invalid?
@@ -30,11 +32,11 @@ class AwardsController < ApplicationController
   # POST /awards.json
   def create
     @award = Award.new(award_params)
-
+    given_user = User.find(params[:id])
     respond_to do |format|
       if params[:back]
         format.html { render :new }
-      elsif @award.save
+      elsif @award.give(current_user, given_user)
         format.html { redirect_to @award, notice: 'Award was successfully created.' }
         format.json { render :show, status: :created, location: @award }
       else
@@ -77,6 +79,6 @@ class AwardsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def award_params
-      params.require(:award).permit(:contents, :day)
+      params.require(:award).permit(:contents, :day, :giver_id, :given_id)
     end
 end
