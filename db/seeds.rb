@@ -7,9 +7,10 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-  Award.create(:contents => "aaa1", :user_id => 1 )
-  Award.create(:contents => "aaa2", :user_id => 1 )
-  Award.create(:contents => "aaa3", :user_id => 2 )
+  Award.create(:contents => "aaa1")
+  Award.create(:contents => "aaa2")
+  Award.create(:contents => "aaa3")
 
 
   User.create(:email => "hogehoge@3ff.com", :password => 'hugahuga')
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
