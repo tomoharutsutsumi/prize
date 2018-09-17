@@ -3,8 +3,7 @@ class AwardsController < ApplicationController
   # GET /awards
   # GET /awards.json
   def index
-    #説明画面
-    @user = current_user
+    @users = User.all
   end
 
   # GET /awards/1
