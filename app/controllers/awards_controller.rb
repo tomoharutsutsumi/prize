@@ -1,5 +1,5 @@
 class AwardsController < ApplicationController
-  before_action :set_award, only: [:show, :edit, :update, :destroy]
+  before_action :set_award, only: [:edit, :update, :destroy]
   # GET /awards
   # GET /awards.json
   def index
@@ -9,6 +9,7 @@ class AwardsController < ApplicationController
   # GET /awards/1
   # GET /awards/1.json
   def show
+    @award = Award.find(params[:id])
   end
 
   # GET /awards/new
@@ -30,7 +31,6 @@ class AwardsController < ApplicationController
   # POST /awards.json
   def create
     @award = Award.new(award_params)
-
     respond_to do |format|
       if params[:back]
         format.html { render :new }
@@ -77,6 +77,6 @@ class AwardsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def award_params
-      params.require(:award).permit(:contents, :day)
+      params.require(:award).permit(:contents, :day, :giver_id, :given_id)
     end
 end

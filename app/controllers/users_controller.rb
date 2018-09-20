@@ -1,8 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, only: [:show, :all_givers, :all_givings]
 
-  #before_action :set_user, only: [:show_givers, :show_givings]
-
   def show
     @user = User.find(params[:id])
   end
@@ -18,7 +16,6 @@ class UsersController < ApplicationController
   def all_givings
     @giving_awards = current_user.giving_awards
   end
-
 
 
 end
