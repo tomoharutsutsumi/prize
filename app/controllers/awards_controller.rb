@@ -1,5 +1,5 @@
 class AwardsController < ApplicationController
-  before_action :set_award, only: [:show, :edit, :update, :destroy]
+  before_action :set_award, only: [:edit, :update, :destroy]
   # GET /awards
   # GET /awards.json
   def index
@@ -9,6 +9,7 @@ class AwardsController < ApplicationController
   # GET /awards/1
   # GET /awards/1.json
   def show
+    @award = Award.find(params[:id])
   end
 
   # GET /awards/new
@@ -17,8 +18,6 @@ class AwardsController < ApplicationController
   end
 
   def confirm
-    #giver_id = current_user.id
-    #given_id = User.find(params[:id])
     @award = Award.new(award_params)
     @award.make_award_img
     render :new if @award.invalid?
@@ -32,11 +31,10 @@ class AwardsController < ApplicationController
   # POST /awards.json
   def create
     @award = Award.new(award_params)
-    given_user = User.find(params[:id])
     respond_to do |format|
       if params[:back]
         format.html { render :new }
-      elsif @award.give(current_user, given_user)
+      elsif @award.save
         format.html { redirect_to @award, notice: 'Award was successfully created.' }
         format.json { render :show, status: :created, location: @award }
       else

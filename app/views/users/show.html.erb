@@ -1,4 +1,4 @@
 <%= @user.username %>
 <%= @user.email %>
-<%= link_to 'New Award', new_award_path %>
-<%=link_to 'topに戻る', root_path %>
+<%= link_to 'この人に賞を送る', awards_new_path(@user) %>
+<%= link_to 'topに戻る', root_path %>
