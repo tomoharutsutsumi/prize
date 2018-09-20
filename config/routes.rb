@@ -5,5 +5,8 @@ Rails.application.routes.draw do
   root to: 'awards#index'
   post 'awards/confirm', to: 'awards#confirm'
   resources :awards
-  resources :users
+  resources :users do
+    get :all_givers, on: :collection
+    get :all_givings, on: :collection
+  end
 end
