@@ -21,6 +21,9 @@
     <%= form.date_select :day, id: :award_day %>
   </div>
 
+  <%= form.hidden_field :giver_id, value: current_user.id %>
+  <%= form.hidden_field :given_id, value: params[:given_id] %>
+
   <div class="actions">
     <%= form.submit "確認画面へ" %>
   </div>

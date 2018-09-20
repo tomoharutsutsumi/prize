@@ -14,13 +14,4 @@ class User < ApplicationRecord
   foreign_key: "given_id",
   dependent: :destroy
 
-
-  def give(given_user)
-    giving_awards.create(given_id: given_user.id)
-  end
-
-
-
-
-
 end
