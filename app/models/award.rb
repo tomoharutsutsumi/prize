@@ -1,3 +1,4 @@
+require 'aws-sdk'
 class Award < ApplicationRecord
   belongs_to :giver, class_name: "User"
   belongs_to :given, class_name: "User"
@@ -5,6 +6,15 @@ class Award < ApplicationRecord
   validates :giver_id, presence: true
   validates :given_id, presence: true
   validates :contents, presence: true
+
+  def aws
+    Aws.config.update({
+    credentials: Aws::Credentials.new(ENV['ACCESS_KEY_ID'], ENV['SECRET_ACCESS_KEY'])})
+    s3 = Aws::S3::Resource.new(region: 'ap-northeast-1')
+    bucket = s3.bucket('prize-object')
+    object = bucket.object('award.png')
+    object.upload_file("annotated_award_img.png")
+  end
 
   def make_award_img
     award_contents = self.contents
@@ -16,6 +26,7 @@ class Award < ApplicationRecord
       self.font = font
     end
     resized_award_img.write("#{Rails.root}/app/assets/images/annotated_award_img.png")
+    aws
   end
 
 
