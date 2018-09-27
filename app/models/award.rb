@@ -12,7 +12,7 @@ class Award < ApplicationRecord
     credentials: Aws::Credentials.new(ENV['ACCESS_KEY_ID'], ENV['SECRET_ACCESS_KEY'])})
     s3 = Aws::S3::Resource.new(region: 'ap-northeast-1')
     bucket = s3.bucket('prize-object')
-    object = bucket.object("#{Award.last.id}-award.png")
+    object = bucket.object("#{self.id}-award.png")
     object.upload_file("annotated_award_img.png")
   end
 
