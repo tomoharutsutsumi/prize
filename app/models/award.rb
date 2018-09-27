@@ -12,9 +12,7 @@ class Award < ApplicationRecord
     credentials: Aws::Credentials.new(ENV['ACCESS_KEY_ID'], ENV['SECRET_ACCESS_KEY'])})
     s3 = Aws::S3::Resource.new(region: 'ap-northeast-1')
     bucket = s3.bucket('prize-object')
-   # binding.pry
-    count_numbers
-    object = bucket.object("#{@number}-award.png")
+    object = bucket.object("#{Award.last.id}-award.png")
     object.upload_file("annotated_award_img.png")
   end
 
@@ -29,14 +27,4 @@ class Award < ApplicationRecord
     end
     resized_award_img.write("#{Rails.root}/app/assets/images/annotated_award_img.png")
   end
-
-  def count_numbers
-    if Award.exists?
-      @number = Award.last.id
-    else
-      @number = 1
-    end
-  end
-
-
 end
