@@ -35,6 +35,7 @@ class AwardsController < ApplicationController
       if params[:back]
         format.html { render :new }
       elsif @award.save
+        @award.upload_aws
         format.html { redirect_to @award, notice: 'Award was successfully created.' }
         format.json { render :show, status: :created, location: @award }
       else
