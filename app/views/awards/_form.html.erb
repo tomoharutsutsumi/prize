@@ -1,4 +1,4 @@
-<%= form_with(model: award, local: true, url: {action: 'confirm'}) do |form| %>
+<%= form_with(model: award, local: true, url: awards_confirm_path) do |form| %>
   <% if award.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(award.errors.count, "error") %> prohibited this award from being saved:</h2>

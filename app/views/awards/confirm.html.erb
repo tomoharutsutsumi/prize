@@ -1,6 +1,6 @@
 <%= image_tag "annotated_award_img.png" %>
 
-<%= form_for @award do |f| %>
+<%= form_for @award, url: awards_create_path do |f| %>
   <div class="field">
     <%= f.hidden_field :day %>
   </div>
