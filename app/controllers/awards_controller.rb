@@ -30,13 +30,11 @@ class AwardsController < ApplicationController
   # POST /awards
   # POST /awards.json
   def create
-    @award = Award.new(award_params)
-    respond_to do |format|
-      Award.transaction do
+      @award = Award.new(award_params)
+      respond_to do |format|
         if params[:back]
           format.html { render :new }
-        elsif @award.save
-          @award.upload_aws
+        elsif @award.create_transaction
           format.html { redirect_to @award, notice: 'Award was successfully created.' }
           format.json { render :show, status: :created, location: @award }
         else
@@ -45,11 +43,7 @@ class AwardsController < ApplicationController
         end
       end
     end
-    rescue => e
-    flash.now[:notice] = '正しく保存されませんでした。時間をおいてもう一度お試しください。'
-    render :new
   end
-
   # PATCH/PUT /awards/1
   # PATCH/PUT /awards/1.json
   def update

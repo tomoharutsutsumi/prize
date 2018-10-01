@@ -27,4 +27,12 @@ class Award < ApplicationRecord
     end
     resized_award_img.write("#{Rails.root}/app/assets/images/annotated_award_img.png")
   end
+
+  def create_transaction
+    Award.transaction do
+      self.save!
+      self.upload_aws
+    end
+  end
+
 end
