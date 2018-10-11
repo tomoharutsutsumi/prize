@@ -12,3 +12,5 @@ Rails.application.routes.draw do
   end
   resources :awards, :except => ['new', 'confirm', 'create']
 end
+
+

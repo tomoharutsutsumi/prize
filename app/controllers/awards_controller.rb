@@ -31,18 +31,23 @@ class AwardsController < ApplicationController
   # POST /awards
   # POST /awards.json
   def create
-    @award = Award.new(award_params)
-    set_giver_and_given_id
-    respond_to do |format|
-      if params[:back]
-        format.html { render :new }
-      elsif @award.create_with_upload!(@giver_id, @given_id)
-        format.html { redirect_to @award, notice: 'Award was successfully created.' }
-        format.json { render :show, status: :created, location: @award }
-      else
-        format.html { render :new }
-        format.json { render json: @award.errors, status: :unprocessable_entity }
+    begin
+      @award = Award.new(award_params)
+      set_giver_and_given_id
+      respond_to do |format|
+        if params[:back]
+          format.html { render :new }
+        elsif @award.create_with_upload!(@giver_id, @given_id)
+          format.html { redirect_to @award, notice: 'Award was successfully created.' }
+          format.json { render :show, status: :created, location: @award }
+        else
+          format.html { render :new }
+          format.json { render json: @award.errors, status: :unprocessable_entity }
+        end
       end
+    rescue => e
+    flash.now[:notice] = '正しく保存されませんでした。時間をおいてもう一度お試しください。'
+    render :new
     end
   end
   # PATCH/PUT /awards/1
