@@ -15,6 +15,8 @@ class AwardsController < ApplicationController
   # GET /awards/new
   def new
     @award = Award.new
+    @award.given_id = params[:given_id]
+    #binding.pry
   end
 
   def confirm
@@ -45,9 +47,9 @@ class AwardsController < ApplicationController
           format.json { render json: @award.errors, status: :unprocessable_entity }
         end
       end
-    rescue => e
-    flash.now[:notice] = '正しく保存されませんでした。時間をおいてもう一度お試しください。'
-    render :new
+    rescue Aws::S3::MultipartUploadError => e
+      flash.now[:notice] = 'アマゾンが悪いです。'
+      render :new
     end
   end
   # PATCH/PUT /awards/1

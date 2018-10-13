@@ -1,6 +1,6 @@
 <%= image_tag "annotated_award_img.png" %>
 
-<%= form_for @award, url: awards_create_path do |f| %>
+<%= form_for @award, url: awards_path do |f| %>
   <div class="field">
     <%= f.hidden_field :day %>
   </div>
@@ -8,7 +8,7 @@
     <%= f.hidden_field :contents %>
   </div>
   <%= f.hidden_field :giver_id, value: current_user.id %>
-  <%= f.hidden_field :given_id, value: params[:given_id] %>
+  <%= f.hidden_field :given_id, value: params[:award][:given_id] %>
   <div class="actions">
     <%= f.submit '投稿画面に戻る', name: 'back' %>
   </div>

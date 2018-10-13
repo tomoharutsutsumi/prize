@@ -1,4 +1,5 @@
 <%= @user.username %>
 <%= @user.email %>
-<%= link_to 'この人に賞を送る', awards_new_path(@user) %>
+<%= link_to 'この人に賞を送る', new_award_path(given_id: @user.id)%>
+<%# binding.pry %>
 <%= link_to 'topに戻る', root_path %>
