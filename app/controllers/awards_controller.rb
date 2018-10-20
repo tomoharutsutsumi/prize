@@ -1,5 +1,6 @@
 class AwardsController < ApplicationController
   before_action :set_award, only: [:edit, :update, :destroy]
+  before_action  :set_giver_and_given_id, only: [:confirm, :create]
   # GET /awards
   # GET /awards.json
   def index
@@ -21,7 +22,6 @@ class AwardsController < ApplicationController
 
   def confirm
     @award = Award.new(award_params)
-    set_giver_and_given_id
     @award.make_award_img(@giver_id, @given_id)
     render :new if @award.invalid?
   end
@@ -35,20 +35,17 @@ class AwardsController < ApplicationController
   def create
     begin
       @award = Award.new(award_params)
-      set_giver_and_given_id
       respond_to do |format|
         if params[:back]
           format.html { render :new }
-        elsif @award.create_with_upload!(@giver_id, @given_id)
+        else
+          @award.create_with_upload!(@giver_id, @given_id)
           format.html { redirect_to @award, notice: 'Award was successfully created.' }
           format.json { render :show, status: :created, location: @award }
-        else
-          format.html { render :new }
-          format.json { render json: @award.errors, status: :unprocessable_entity }
         end
       end
     rescue Aws::S3::MultipartUploadError => e
-      flash.now[:notice] = 'アマゾンが悪いです。'
+      flash.now[:notice] = '社外システムとの連携に失敗しました。時間を置いてもう一度お試しください。'
       render :new
     end
   end

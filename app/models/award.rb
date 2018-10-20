@@ -27,20 +27,17 @@ class Award < ApplicationRecord
     end
   end
 
-
-
   private
 
-  def set_url
-    @upload_to_thisURL = "#{Rails.root}/app/assets/images/fromUser#{giver_id}_toUser#{given_id}award_img.png"
-  end
+    def set_url
+      @upload_to_thisURL = "#{Rails.root}/app/assets/images/fromUser#{giver_id}_toUser#{given_id}award_img.png"
+    end
 
-  def upload_aws(giver_id, given_id)
-    set_url
-    s3 = Aws::S3::Resource.new(region: 'ap-northeast-1')
-    bucket = s3.bucket('prize-object')
-    object = bucket.object("#{self.id}-award.png")
-    object.upload_file(@upload_to_thisURL)
-  end
-
+    def upload_aws(giver_id, given_id)
+      set_url
+      s3 = Aws::S3::Resource.new(region: 'ap-northeast-1')
+      bucket = s3.bucket('prize-object')
+      object = bucket.object("#{self.id}-award.png")
+      object.upload_file(@upload_to_thisURL)
+    end
 end
