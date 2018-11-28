@@ -5,12 +5,12 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+3.times do |n|
+  User.create( email: "hogehoge@#{n}ff.com", password: 'hugahuga')
+end
 
+Award.create(contents: "aaa1", giver_id: 1, given_id: 2)
+Award.create(contents: "aaa2", giver_id: 2, given_id: 3)
+Award.create(contents: "aaa3", giver_id: 3, given_id: 2)
 
-  Award.create(:contents => "aaa1")
-  Award.create(:contents => "aaa2")
-  Award.create(:contents => "aaa3")
-
-
-  User.create(:email => "hogehoge@3ff.com", :password => 'hugahuga')
-  AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+#AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?

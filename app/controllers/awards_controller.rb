@@ -3,7 +3,7 @@ class AwardsController < ApplicationController
   # GET /awards
   # GET /awards.json
   def index
-    @users = User.all
+    @users = User.where.not(id: current_user.id)
   end
 
   # GET /awards/1
@@ -19,7 +19,6 @@ class AwardsController < ApplicationController
 
   def confirm
     @award = Award.new(award_params)
-    @award.make_award_img
     render :new if @award.invalid?
   end
 
@@ -30,18 +29,18 @@ class AwardsController < ApplicationController
   # POST /awards
   # POST /awards.json
   def create
-    @award = Award.new(award_params)
-    respond_to do |format|
-      if params[:back]
-        format.html { render :new }
-      elsif @award.save
-        format.html { redirect_to @award, notice: 'Award was successfully created.' }
-        format.json { render :show, status: :created, location: @award }
-      else
-        format.html { render :new }
-        format.json { render json: @award.errors, status: :unprocessable_entity }
+      @award = Award.new(award_params)
+      respond_to do |format|
+        if params[:back]
+          format.html { render :new }
+        elsif @award.save
+          format.html { redirect_to @award, notice: 'Award was successfully created.' }
+          format.json { render :show, status: :created, location: @award }
+        else
+          format.html { render :new }
+          format.json { render json: @award.errors, status: :unprocessable_entity }
+        end
       end
-    end
   end
 
   # PATCH/PUT /awards/1

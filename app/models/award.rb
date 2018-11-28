@@ -6,10 +6,11 @@ class Award < ApplicationRecord
   validates :giver_id, presence: true
   validates :given_id, presence: true
   validates :contents, presence: true
+  validate :ids_differ?
 
   def aws
     Aws.config.update({
-    credentials: Aws::Credentials.new(ENV['ACCESS_KEY_ID'], ENV['SECRET_ACCESS_KEY'])})
+    credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'])})
     s3 = Aws::S3::Resource.new(region: 'ap-northeast-1')
     bucket = s3.bucket('prize-object')
     object = bucket.object('award.png')
@@ -29,5 +30,9 @@ class Award < ApplicationRecord
     aws
   end
 
-
+  def ids_differ?
+    if giver_id == given_id
+      errors.add(I18n.t("view.award"), "は自分には送れません")
+    end
+  end
 end
