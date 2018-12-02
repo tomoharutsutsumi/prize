@@ -3,8 +3,13 @@ class AwardsController < ApplicationController
   # GET /awards
   # GET /awards.json
   def index
-    @users = User.where.not(id: current_user.id)
+    if user_signed_in?
+      @users = User.where.not(id: current_user.id)
+    else
+      @users = User.all
+    end
   end
+
 
   # GET /awards/1
   # GET /awards/1.json
@@ -19,6 +24,7 @@ class AwardsController < ApplicationController
 
   def confirm
     @award = Award.new(award_params)
+    @award.make_award_img
     render :new if @award.invalid?
   end
 
@@ -76,6 +82,6 @@ class AwardsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def award_params
-      params.require(:award).permit(:contents, :day, :giver_id, :given_id)
+      params.require(:award).permit(:contents, :day, :giver_id, :given_id, :award_category_id)
     end
 end

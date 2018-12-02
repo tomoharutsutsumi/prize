@@ -1,12 +1,9 @@
 <%= image_tag "annotated_award_img.png" %>
 
 <%= form_for @award do |f| %>
-  <div class="field">
-    <%= f.hidden_field :day %>
-  </div>
-  <div class="field">
-    <%= f.hidden_field :contents %>
-  </div>
+  <%= f.hidden_field :day %>
+  <%= f.hidden_field :contents %>
+  <%= f.hidden_field :award_category_id %>
   <%= f.hidden_field :giver_id, value: current_user.id %>
   <%= f.hidden_field :given_id, value: params[:given_id] %>
   <div class="actions">

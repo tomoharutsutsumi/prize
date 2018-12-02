@@ -9,8 +9,17 @@
   User.create( email: "hogehoge@#{n}ff.com", password: 'hugahuga')
 end
 
-Award.create(contents: "aaa1", giver_id: 1, given_id: 2)
-Award.create(contents: "aaa2", giver_id: 2, given_id: 3)
-Award.create(contents: "aaa3", giver_id: 3, given_id: 2)
+
+AwardCategory.create(level: "excellent")
+AwardCategory.create(level: "good")
+AwardCategory.create(level: "ordinary")
+AwardCategory.create(level: "below_ordinary")
+AwardCategory.create(level: "poor")
+
+
+Award.create(contents: "aaa1", giver_id: 1, given_id: 2, award_category_id: 1)
+Award.create(contents: "aaa2", giver_id: 2, given_id: 3, award_category_id: 2)
+Award.create(contents: "aaa3", giver_id: 3, given_id: 2, award_category_id: 3)
 
 #AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+

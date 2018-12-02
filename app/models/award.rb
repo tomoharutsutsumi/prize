@@ -1,5 +1,6 @@
 require 'aws-sdk'
 class Award < ApplicationRecord
+  belongs_to :award_category
   belongs_to :giver, class_name: "User"
   belongs_to :given, class_name: "User"
 
