@@ -1,11 +1,16 @@
 <%= image_tag "annotated_award_img.png" %>
+あなたが選んでいるレベルは<%= @level %>です
+<% @tags.each do |tag| %>
+  あなたが選んでいるタグは<%= tag.tag%>です
+<% end %>
 
 <%= form_for @award do |f| %>
   <%= f.hidden_field :day %>
   <%= f.hidden_field :contents %>
-  <%= f.hidden_field :award_category_id %>
   <%= f.hidden_field :giver_id, value: current_user.id %>
   <%= f.hidden_field :given_id, value: params[:given_id] %>
+  <%= f.hidden_field :award_category_id %>
+  <%= f.hidden_field :award_tag_ids, :multiple => true %>
   <div class="actions">
     <%= f.submit '投稿画面に戻る', name: 'back' %>
   </div>

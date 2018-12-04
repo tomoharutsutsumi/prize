@@ -25,6 +25,15 @@
     <%= form.select :award_category_id, AwardCategory.all.map{|k| ["#{k.level}", k.id]} %>
   </div>
 
+  <div class="field">
+    <%= form.label :sports %>
+    <%= form.check_box :award_tag_ids, {multiple: true}, 1, false %>
+    <%= form.label :art %>
+    <%= form.check_box :award_tag_ids, {multiple: true}, 2, false %>
+    <%= form.label :study %>
+    <%= form.check_box :award_tag_ids, {multiple: true}, 3, false %>
+  </div>
+
   <%= form.hidden_field :giver_id, value: current_user.id %>
   <%= form.hidden_field :given_id, value: params[:given_id] %>
 

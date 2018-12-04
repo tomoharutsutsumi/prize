@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 3.times do |n|
-  User.create( email: "hogehoge@#{n}ff.com", password: 'hugahuga')
+  User.create(email: "hogehoge@#{n}ff.com", password: 'hugahuga')
 end
 
 
@@ -16,6 +16,9 @@ AwardCategory.create(level: "ordinary")
 AwardCategory.create(level: "below_ordinary")
 AwardCategory.create(level: "poor")
 
+AwardTag.create(tag: "sports")
+AwardTag.create(tag: "art")
+AwardTag.create(tag: "study")
 
 Award.create(contents: "aaa1", giver_id: 1, given_id: 2, award_category_id: 1)
 Award.create(contents: "aaa2", giver_id: 2, given_id: 3, award_category_id: 2)

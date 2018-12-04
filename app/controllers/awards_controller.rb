@@ -25,6 +25,8 @@ class AwardsController < ApplicationController
   def confirm
     @award = Award.new(award_params)
     @award.make_award_img
+    @level = @award.award_category.level
+    @tags = AwardTag.find(params[:award][:award_tag_ids])
     render :new if @award.invalid?
   end
 
@@ -82,6 +84,6 @@ class AwardsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def award_params
-      params.require(:award).permit(:contents, :day, :giver_id, :given_id, :award_category_id)
+      params.require(:award).permit(:contents, :day, :giver_id, :given_id, :award_category_id, award_tag_ids:[])
     end
 end
