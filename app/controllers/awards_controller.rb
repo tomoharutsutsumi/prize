@@ -1,5 +1,6 @@
 class AwardsController < ApplicationController
   before_action :set_award, only: [:edit, :update, :destroy]
+  before_action  :set_giver_and_given_id, only: [:confirm, :create]
   # GET /awards
   # GET /awards.json
   def index
@@ -20,11 +21,13 @@ class AwardsController < ApplicationController
   # GET /awards/new
   def new
     @award = Award.new
+    @award.given_id = params[:given_id]
+    #binding.pry
   end
 
   def confirm
     @award = Award.new(award_params)
-    @award.make_award_img
+    @award.make_award_img(@giver_id, @given_id)
     @level = @award.award_category.level
     @tags = AwardTag.find(params[:award][:award_tag_ids])
     render :new if @award.invalid?
@@ -37,20 +40,22 @@ class AwardsController < ApplicationController
   # POST /awards
   # POST /awards.json
   def create
+    begin
       @award = Award.new(award_params)
       respond_to do |format|
         if params[:back]
           format.html { render :new }
-        elsif @award.save
+        else
+          @award.create_with_upload!(@giver_id, @given_id)
           format.html { redirect_to @award, notice: 'Award was successfully created.' }
           format.json { render :show, status: :created, location: @award }
-        else
-          format.html { render :new }
-          format.json { render json: @award.errors, status: :unprocessable_entity }
         end
       end
+    rescue Aws::S3::MultipartUploadError => e
+      flash.now[:notice] = '社外システムとの連携に失敗しました。時間を置いてもう一度お試しください。'
+      render :new
+    end
   end
-
   # PATCH/PUT /awards/1
   # PATCH/PUT /awards/1.json
   def update
@@ -81,6 +86,10 @@ class AwardsController < ApplicationController
       @award = Award.find(params[:id])
     end
 
+    def set_giver_and_given_id
+      @giver_id = params[:award][:giver_id]
+      @given_id = params[:award][:given_id]
+    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def award_params

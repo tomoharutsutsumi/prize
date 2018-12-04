@@ -4,7 +4,7 @@
   あなたが選んでいるタグは<%= tag.tag%>です
 <% end %>
 
-<%= form_for @award do |f| %>
+<%= form_for @award, url: awards_path do |f| %>
   <%= f.hidden_field :day %>
   <%= f.hidden_field :contents %>
   <%= f.hidden_field :giver_id, value: current_user.id %>
