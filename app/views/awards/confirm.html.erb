@@ -8,7 +8,7 @@
   <%= f.hidden_field :day %>
   <%= f.hidden_field :contents %>
   <%= f.hidden_field :giver_id, value: current_user.id %>
-  <%= f.hidden_field :given_id, value: params[:given_id] %>
+  <%= f.hidden_field :given_id, value: params[:award][:given_id] %>
   <%= f.hidden_field :award_category_id %>
   <%= f.hidden_field :award_tag_ids, :multiple => true %>
   <div class="actions">
