@@ -1,11 +1,14 @@
 require 'aws-sdk'
 class Award < ApplicationRecord
+  belongs_to :award_category
   belongs_to :giver, class_name: "User"
   belongs_to :given, class_name: "User"
+  has_and_belongs_to_many :award_tags
 
   validates :giver_id, presence: true
   validates :given_id, presence: true
   validates :contents, presence: true
+  validate :ids_differ?
 
   def make_award_img(giver_id, given_id)
     set_url
@@ -24,10 +27,21 @@ class Award < ApplicationRecord
     Award.transaction do
       self.save!
       upload_aws(giver_id, given_id)
+      send_email(giver_id, given_id)
+    end
+  end
+
+  def ids_differ?
+    if giver_id == given_id
+      errors.add(I18n.t("view.award"), "は自分には送れません")
     end
   end
 
   private
+
+    def send_email(giver_id, given_id)
+      UserMailer.giving_award_email(giver_id, given_id).deliver_now
+    end
 
     def set_url
       @upload_to_thisURL = "#{Rails.root}/app/assets/images/fromUser#{giver_id}_toUser#{given_id}award_img.png"
@@ -35,7 +49,9 @@ class Award < ApplicationRecord
 
     def upload_aws(giver_id, given_id)
       set_url
-      s3 = Aws::S3::Resource.new(region: 'ap-northeast-1')
+      Aws.config.update({
+      credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'])})
+      s3 = Aws::S3::Resource.new(region: ENV['AWS_REGION'])
       bucket = s3.bucket('prize-object')
       object = bucket.object("#{self.id}-award.png")
       object.upload_file(@upload_to_thisURL)
