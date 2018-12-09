@@ -40,7 +40,7 @@ class Award < ApplicationRecord
   private
 
     def send_email(giver_id, given_id)
-      UserMailer.giving_award_email(giver_id, given_id).deliver_now
+      MailWorker.perform_async(giver_id, given_id)
     end
 
     def set_url
